@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    {% if title %}
+        <title>Lumea Gourmanzilor - {{ title }}</title>
+    {% else %}
+        <title>Lumea Gourmanzilor</title>
+    {% endif %}
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Lumea Gourmanzilor, Restaurant Italianesc Suceava - Experiență autentică. Va asteptam sa savurati produsele create special pentru romani.">
+    <meta name="keywords" content="restaurant italienesc suceava mancare porchetta salsiccia porc restaurant-mobil sandwich lipie pizza burger">
+    <meta name="author" content="rickandronache">
+    <!-- Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon and Touch Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static', filename='apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{url_for('static', filename='img/32x32.svg')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename='img/16x16.svg')}}">
+    <link rel="manifest" href="{{url_for('static', filename='site.webmanifest')}}">
+    <link rel="mask-icon" color="#fe6a6a" href="safari-pinned-tab.svg">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
+    {% block customstyles %}
+    {% endblock customstyles %}
+    <!-- Main Theme Styles + Bootstrap-->
+    <link rel="stylesheet" media="screen" href="{{url_for('static', filename='css/theme.min.css')}}">
+    <link rel="stylesheet" media="screen" href="{{url_for('static', filename='vendor/lightgallery.js/dist/css/lightgallery.min.css')}}">
+
+</head>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<body class="d-flex flex-column min-vh-100">
+  <!-- Navbar -->
+  {% block header %}
+  {% endblock header %}
+
+  {% block aside %}
+  {% endblock %}
+
+  {% block main %}
+    {% block bodycontent %}{% endblock bodycontent %}
+  {% endblock main %}
+
+  
+  <!-- Top button -->
+  <a class="btn-scroll-top show" href="#top" data-scroll=""><span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">Top</span><i class="btn-scroll-top-icon czi-arrow-up">   </i></a>
+  
+  <!-- Vendor scrits: js libraries and plugins-->
+  <script src="../static/vendor/jquery/dist/jquery.slim.min.js"></script>
+  <script src="{{url_for('static', filename='vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{url_for('static', filename='vendor/bs-custom-file-input/dist/bs-custom-file-input.min.js')}}"></script>
+  <script src="{{url_for('static', filename='vendor/simplebar/dist/simplebar.min.js')}}"></script>
+  <script src="{{url_for('static', filename='vendor/tiny-slider/dist/min/tiny-slider.js')}}"></script>
+  <script src="{{url_for('static', filename='vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js')}}"></script>
+  <script src="{{url_for('static', filename='vendor/drift-zoom/dist/Drift.min.js')}}"></script>
+
+  {% block scripts %}
+  {% endblock scripts %}
+
+  <!-- Main theme script-->
+  <script src="{{url_for('static', filename='js/theme.min.js')}}"></script>
+
+  {% block modals %}
+  {% endblock modals %}
+</body>
+</html>

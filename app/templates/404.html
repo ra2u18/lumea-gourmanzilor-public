@@ -1,0 +1,70 @@
+<!-- Inheriting styles from the layout file. -->
+{% extends "layout.html" %}
+
+<!-- Header block -->
+{% block header %}
+<!-- Topbar + Navbar -->
+<!-- Multilevel light navbar -->
+<header class="box-shadow-sm">
+  <div class="navbar navbar-expand-lg navbar-dark bg-darker">
+    <div class="container">
+      <a href="{{url_for('home')}}" class="navbar-brand d-none d-sm-block mr-4 order-lg-1" style="min-width: 7rem;">
+        <img class="navbar-floating-logo" width="200" src="../static/img/logo-lumea.svg" alt="Lumea Gourmanzilor Logo White" />
+        <!-- ADD BLACK VERSION OF LOGO-->
+        <img width="200" src="../static/img/logo-black.svg" alt="Lumea Gourmanzilor Logo Black" class="navbar-stuck-logo">
+      </a>
+      <!-- Logo minim Lumea -->
+      <a href="{{url_for('home')}}" class="navbar-brand d-sm-none mr-2 order-lg-1" style="min-width: 4.625rem;">
+        <img width="45" src="../static/img/logo-lumea-min.svg" alt="Lumea Gourmanzilor Logo Mini" />
+      </a>
+      
+      <!-- Navbar collapse hamburger menu -->
+      <div class="navbar-toolbar d-flex align-items-center order-lg-3">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+  
+      <!-- Content of Navigation Bar row justify-content-end pr-10-->
+      <div class="collapse navbar-collapse order-lg-3" id="navbarCollapse">
+      
+        <!-- Primary menu -->
+        <ul class="navbar-nav ">
+          <li class="nav-item">
+            <a href="{{url_for('home')}}" class="nav-link">
+              Acasa
+            </a>
+          </li>
+  
+          <li class="nav-item">
+            <a href="{{url_for('about_us')}}" class="nav-link">
+              Despre Noi
+            </a>
+          </li>
+        </ul>
+      </div>  
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block main %}
+    <main class="main">
+        {% block bodycontent %}
+            <!-- Page title-->
+            <!-- Page Content-->
+            <div class="container py-5 mb-lg-3">
+                <div class="row justify-content-center align-content-center pt-lg-4 text-center" style="height: 65vh;">
+                <div class="col-lg-7 col-md-7 col-sm-9">
+                    <h1 class="display-404">404</h1>
+                    <h2 class="h4 mb-4">Nu putem gasi pagina pe care incercati sa o accesati</h2>
+                </div>
+                </div>
+            </div>
+        {% endblock bodycontent %}
+
+        {% include 'footer/footer-home.html' %}
+    </main>
+{% endblock main %}
+
+

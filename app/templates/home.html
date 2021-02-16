@@ -1,0 +1,589 @@
+<!-- Inheriting styles from the layout file. -->
+{% extends "layout.html" %}
+
+<!-- Header block -->
+{% block header %}
+<header class="navbar d-block navbar-floating navbar-sticky navbar-expand-lg navbar-dark">
+  {% include 'navbar/nav-home.html' %}
+</header>
+{% endblock %}
+
+<!-- Vendor Styles including: Font Icons, Plugins, etc.-->
+{% block customstyles %}
+    <link rel="stylesheet" media="screen" href="{{url_for('static', filename='vendor/simplebar/dist/simplebar.min.css')}}"/>
+    <link rel="stylesheet" media="screen" href="{{url_for('static', filename='vendor/tiny-slider/dist/tiny-slider.css')}}"/>
+    <link rel="stylesheet" media="screen" href="{{url_for('static', filename='vendor/drift-zoom/dist/drift-basic.min.css')}}"/>
+
+    <!-- Custom styles -->
+    <style>
+      .line-through{
+        text-decoration: line-through;
+      }
+
+      .disabled {
+        pointer-events: none;
+        cursor: default;
+      }
+    </style>
+{% endblock customstyles %}
+
+{% block main %}
+  <main class="main bg-secondary">
+    {% block bodycontent %}
+      <!-- Modals -->
+      {% block modals %}
+      <!-- Contact us Modal -->
+      <div class="modal fade" tabindex="-1" role="dialog" id="contact-modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                  <div class="text-center pt-3 pb-3">
+                      <img width="71" src="../static/img/logo-lumea-min.svg" alt="Cartzilla" />
+                  </div>
+                  <h6 class="h6 mt-4 mb-4 text-center" style="line-height: 2rem;">
+                      Pentru comenzi la sediul restaurantului, contactati-ne in intervalul orelor prezentate mai jos.
+                  </h6>
+
+                  <table class="table">
+                      <tbody>
+                        <tr>
+                          <th scope="row">Luni</th>
+                          <td>9:00 AM</td>
+                          <td>6:00 PM</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Marti</th>
+                          <td>9:00 AM</td>
+                          <td>6:00 PM</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Miercuri</th>
+                          <td>9:00 AM</td>
+                          <td>6:00 PM</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Joi</th>
+                          <td>9:00 AM</td>
+                          <td>6:00 PM</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Vineri</th>
+                          <td>9:00 AM</td>
+                          <td>6:00 PM</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Sambata</th>
+                          <td>9:00 AM</td>
+                          <td>2:00 PM</td>
+                        </tr>
+                      </tbody>
+                  </table>           
+                  
+                  <div class="widget mt-5">
+                      <ul class="widget-list">
+                        <li class="media pb-3 border-bottom">
+                          <i class="czi-location font-size-lg mt-2 mb-0 text-primary"></i>
+                          <div class="media-body pl-3">
+                            <span class="font-size-ms text-muted">Locatie</span>
+                            <a class="d-block text-heading font-size-sm" href="#">Calea Sucevei 268, Suceava, Romania</a>
+                          </div>
+                        </li>
+                        <li class="media pt-2 pb-3 border-bottom">
+                          <i class="czi-phone font-size-lg mt-2 mb-0 text-primary"></i>
+                          <div class="media-body pl-3">
+                            <span class="font-size-ms text-muted">Numar de telefon</span>
+                            <a class="d-block text-heading font-size-sm" href="tel:+184725276533">(+40) 0732 526 203</a>
+                          </div>
+                        </li>
+                        <li class="media pt-2">
+                          <i class="czi-mail font-size-lg mt-2 mb-0 text-primary"></i>
+                          <div class="media-body pl-3">
+                            <span class="font-size-ms text-muted">Trimite un feedback</span>
+                            <a class="d-block text-heading font-size-sm" href="mailto:email@example.com">contact@lumeagourmanzilor.com</a>
+                            <a class="d-block text-heading font-size-sm" href="https://www.facebook.com/lumeagourmanzilorrestaurant">www.facebook.com/lumeagourmanzilorrestaurant</a>
+                          </div>
+                        </li>
+                      </ul>
+                  </div>
+                  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Am inteles</button>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      {% for product in products %}  
+        <!-- Product modal -->
+        <div class="modal-quick-view modal fade" id="product{{loop.index}}" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title">{{product.title}}</h4>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                  <!-- Product gallery-->
+                  <div class="col-lg-7 col-md-6 pr-lg-0"><img src="https://d22w8zt7h3m83m.cloudfront.net/{{product.jpeg_path}}" alt="{{product.title}}"/>
+                  </div>
+                  <!-- Product details-->
+                  <div class="col-lg-5 col-md-6 pt-4 pt-lg-0">
+                      <div class="product-details ml-auto pb-3">
+                      <div class="mb-3">
+                        <span class="h3 font-weight-normal text-accent mr-1">RON {{ product.price }}</span>
+                          <span class="h4 font-weight-normal text-primary mr-1" id="dimension-price-{{loop.index}}"></span>
+                      </div>
+                      
+                      <form class="mb-grid-gutter">
+                          <div class="row mx-n2">
+                          <div class="col px-2">
+                              <div class="form-group">
+                              <label class="font-weight-medium pb-1" for="product{{loop.index}}-size">Dimensiune</label>
+                              <select class="custom-select" id="product{{loop.index}}-size">
+                                  {% if product.small == true %}
+                                    <option value="small">Mic</option>
+                                  {% endif %}
+
+                                  {% if product.medium == true %}
+                                    <option value="medium">Mediu</option>
+                                  {% endif %}
+
+                                  {% if product.large == true %}
+                                    <option value="large">Mare</option>
+                                  {% endif %}
+                              </select>
+                              </div>
+                          </div>
+                          
+                          </div>
+                          <!--
+                          <div class="form-group d-flex align-items-center">
+                            <button class="btn btn-primary btn-shadow btn-block" type="submit"><i class="czi-cart font-size-lg mr-2"></i>Glovo</button>
+                          </div>
+                          -->
+                      </form>
+                      <h5 class="h6 mb-3 pb-3 border-bottom"><i class="czi-announcement text-muted font-size-lg align-middle mt-n1 mr-2"></i>Informatii produs</h5>
+                      <h6 class="font-size-sm mb-2">Ingrediente</h6>
+                      <p class="font-size-sm">{{product.ingredients | formatlists }}</p>
+                      <h6 class="font-size-sm mb-2">Alergeni</h6>
+                      <p class="font-size-sm">{{product.allergies  | formatlists}}</p>
+                      <!-- Callory section
+                      <h6 class="font-size-sm mb-2">Calorii</h6>
+                      <p id="product{{loop.index}}-callory-base" class="font-size-sm mb-0">{{product.callory}}</p><span id="product{{loop.index}}-callory-big" class="font-size-sm mb-0 text-primary"></span>
+
+                       -->
+                      </div>
+                  </div>
+                  </div>
+              </div>
+              </div>
+          </div>
+        </div>
+      {% endfor %} 
+
+      <!-- Modal for desert -->
+      {%endblock modals%}
+
+      <!-- Heading section -->
+      <section class="bg-darker bg-size-cover bg-position-center py-5 py-lg-10" style="background-image: url(../static/img/food-delivery/Coperta.png);">
+          <div class="container mt-4 mt-lg-3 pt-5 pb-10">
+          <div class="row justify-content-center">
+              <div class="col-xl-6 col-lg-7 col-md-8 col-sm-10 text-center">
+              <h5 class="text-light font-weight-light">#1 Arta Culinara Italieneasca</h5>
+              <div class="h1 text-light mb-3 pb-4">Mancarea ta preferata rapid &amp; fresh in <span class="text-primary-color">Suceava</span></div>
+                  <a class="btn btn-primary" href="#contact-modal" data-toggle="modal">Contactati-ne</a>
+              </div>
+          </div>
+          </div>
+      </section>
+
+      <!-- Offers Section -->
+      <section class="container py-4 my-lg-3 py-sm-5" id="cuisine">
+        <h2 class="text-center pt-4 pt-sm3">Oferte si specialitati ale casei</h2>
+          <p class="text-muted text-center mb-5">Alegeti ce doriti si contactati-ne prin metoda telefonica</p>
+          <div class="row">
+              <div class="col-md-4 col-sm-6 mb-grid-gutter">
+                  <a href="#product1" data-toggle="modal" class="d-block card border-0 box-shadow">
+                      <img src="../static/img/lumea-gour-rem/burger_offer2.jpg" alt="Salsiccia&Fries" class="card-img-top">
+                      <div class="card-body py-4 text-center">
+                          <h3 class="h5 mt-1">Salsiccia &amp; Cartofi</h3>
+                      </div>
+                  </a>
+              </div>
+              <div class="col-md-4 col-sm-6 mb-grid-gutter">
+                  <a href="#product2" data-toggle="modal" class="d-block card border-0 box-shadow">
+                      <img src="../static/img/lumea-gour-rem/porchetta_1.jpeg" alt="Porchetta" class="card-img-top">
+                      <div class="card-body py-4 text-center">
+                          <h3 class="h5 mt-1">Porchetta</h3>
+                      </div>
+                  </a>
+              </div>
+              <div class="col-md-4 col-sm-6 mb-grid-gutter">
+                  <a href="#" class="card border-0 box-shadow">
+                      <img src="../static/img/lumea-gour-rem/crostata3.jpg" alt="Desert" class="card-img-top">
+                      <div class="card-body py-4 text-center">
+                          <h3 class="h5 mt-1">Desert</h3>
+                      </div>
+                  </a>
+              </div>
+          </div>
+      </section>
+
+      <!-- Steps section -->
+      <section class="bg-darker bg-size-cover bg-position-center pt-5 pb-5"
+          style="background-image: url(../static/img/food-delivery/mobile-app-bg.jpg); ">
+          <div class="container pb-5 pt-5">
+              <div class="row no-gutters bg-light rounded-lg">
+                  <div class="col-xl-4 col-lg-12 col-md-4 border-right">
+                      <div class="py-3">
+                          <div class="d-flex align-items-center mx-auto py-3 px-3" style="max-width: 362px;">
+                              <div class="display-2 font-weight-normal border-color mr-4">01</div>
+                              <div class="pl-2">
+                                  <img src="../static/img/steps/01.png" alt="Order Online" width="72" class="d-block my-2">
+                                  <p class="mb-3 pt-1">Alege din meniul nostru mancarea ta preferata. Nu uita sa te respecti astazi!</p>
+                              </div>
+                          </div>
+                      </div>
+                      <hr class="d-md-none d-lg-block d-xl-none">
+                  </div>
+                  <div class="col-xl-4 col-lg-12 col-md-4 border-right">
+                      <div class="py-3">
+                          <div class="d-flex align-items-center mx-auto py-3 px-3" style="max-width: 362px;">
+                              <div class="display-2 font-weight-normal border-color mr-4">02</div>
+                              <div class="pl-2">
+                                  <img src="../static/img/steps/02.png" alt="Order Online" width="72" class="d-block my-2">
+                                  <p class="mb-3 pt-1">Contacteaza-ne prin telefon pentru a incepe prepararea meniului din timp, iar tu te vei bucura de el instant.</p>
+                              </div>
+                          </div>
+                      </div>
+                      <hr class="d-md-none d-lg-block d-xl-none">
+                  </div>
+                  <div class="col-xl-4 col-lg-12 col-md-4">
+                      <div class="py-3">
+                          <div class="d-flex align-items-center mx-auto py-3 px-3" style="max-width: 362px;">
+                              <div class="display-2 font-weight-normal border-color mr-4">03</div>
+                              <div class="pl-2">
+                                  <img src="../static/img/steps/03.png" alt="Order Online" width="72" class="d-block my-2">
+                                  <p class="mb-3 pt-1">Noi vom impacheta produsele cu dragoste si va vom astepta la sediul <a href="#">Lumea Gourmanzilor</a>.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <!-- History and other sub-steps Section-->
+      <section class="container py-4">
+        <div class="row align-items-center py-md-3">
+          <div class="col-lg-5 col-md-6 offset-lg-1 order-md-2"><img class="d-block rounded-lg" src="../static/produse_de_calitate.jpeg" alt="Image"></div>
+          <div class="col-lg-4 col-md-6 offset-lg-1 py-4 order-md-1">
+            <h2 class="h3 mb-4 pb-2">Produse proaspete si aromate</h2>
+            <h6 class="font-size-base mb-3">Motto-ul nostru</h6>
+            <p class="font-size-sm text-muted pb-2">Aducem in meniu gustul bucatariei italienesti, folosindu-ne de tehnici de preparare specifice pentru fiecare produs.</p>
+            <h6 class="font-size-base mb-3">Informatii generale</h6>
+            <ul class="nav nav-tabs mb-3" role="tablist">
+              <li class="nav-item"><a class="nav-link active" href="#card" data-toggle="tab" role="tab" aria-selected="true"><i class="czi-card font-size-xl"></i></a></li>
+              <li class="nav-item"><a class="nav-link" href="#delivery-rocket" data-toggle="tab" role="tab" aria-selected="false"><i class="czi-rocket font-size-xl"></i></a></li>
+              <li class="nav-item"><a class="nav-link" href="#refund" data-toggle="tab" role="tab" aria-selected="false"><i class="czi-currency-exchange font-size-xl"></i></a></li>
+              <li class="nav-item"><a class="nav-link" href="#alergeni" data-toggle="tab" role="tab" aria-selected="false"><i class="czi-dry-clean font-size-xl"></i></a></li>
+            </ul>
+            <div class="tab-content text-muted font-size-sm">
+              <div class="tab-pane fade" id="refund" role="tabpanel">In cazul calitatii deteriorate oferim in schimb cupoane pentru a compensa greseala noastra</div>
+              <div class="tab-pane fade" id="delivery-rocket" role="tabpanel">
+                Livrarile la domiciliu nu sunt disponibile momentan. Echipa <a href="#">Lumea Gourmanzilor</a> lucreaza in dreptul acestei viitoare imbunatatiri. Nu uitati sa ne comunicati preferintele dvs.!  
+              </div>
+              <div class="tab-pane fade active show" id="card" role="tabpanel">Platile cu cardul nu sunt disponibile momentan. Comenzile telefonice
+                vor da posibilitatea platilor in cash la sediul restaurantului
+              </div>
+              <div class="tab-pane fade" id="alergeni" role="tabpanel">Alergeni: gluten, arahide, oua, vin, mustar, lapte, susan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery zones -->
+        <div class="row align-items-center py-4 py-lg-5">
+          <div class="col-lg-5 col-md-6 offset-lg-1"><img class="d-block rounded-lg" src="../static/img/harta.png" alt="Map"></div>
+          <div class="col-lg-4 col-md-6 offset-lg-1 py-4">
+            <h2 class="h3 mb-4 pb-2">Unde se gateste meniul?</h2>
+            <h6 class="font-size-base mb-3">Lumea Gourmanzilor SRL</h6>
+            <p class="font-size-sm text-muted pb-2">​Calea Sucevei nr 268, Suceava, Romania</p>
+
+            <h6 class="font-size-base mb-3">Istorie, draga istorie...</h6>
+            <p class="font-size-sm text-muted pb-md-2">De la inceputul aventurii noastre in "Lumea Restaurantelor" ne-am propus sa fim flexibili si mobili in functie de 
+            eveniment si directia potentialilor clienti. De aceia, restaurantul Lumea Gourmanzilor isi prepara produsele intr-o bucatarie mobila pe patru roti. Clientii nostri, fideli si dragi noua, ne recunosc
+            sub apelativul de "van-ul rosu" din Plopeni, Suceava.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      
+      <!-- Feedback section -->
+      <section class="bg-secondary py-5">
+        <div class="container py-md-4 pt-3 pb-0 py-sm-3">
+          <h2 class="text-center mb-4 mb-md-5">Feedback-ul clientilor nostri</h2>
+          <div class="cz-carousel mb-3">
+            <div class="cz-carousel-inner"
+              data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1, &quot;gutter&quot;:20}, &quot;576&quot;:{&quot;items&quot;:2, &quot;gutter&quot;:20},&quot;850&quot;:{&quot;items&quot;:3, &quot;gutter&quot;:20},&quot;1080&quot;:{&quot;items&quot;:4, &quot;gutter&quot;:25}}}">
+              <blockquote class="mb-2">
+                <div class="card border-0 box-shadow-sm"><span class="cz-testimonial-mark"></span>
+                  <div class="card-body font-size-md text-muted">
+                    <div class="mb-2">
+                      <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
+                      </div>
+                    </div>Sunt foarte incantat de restaurant. Atmosfera frumoasa, mancare buna, iar gustul tinde spre cel italienesc! 
+                    Recomand si celorlalti sa incerce!!
+                  </div>
+                </div>
+                <footer class="d-flex justify-content-center pt-4">
+                  <div class="media align-items-center"><img class="rounded-circle" width="50" src="../static/img/reviews/01.jpg"
+                      alt="Richard Davis" />
+                    <div class="media-body pl-3">
+                      <h6 class="font-size-sm mb-n1">Daniel A.</h6><span class="font-size-ms text-muted opacity-75">Feb
+                        30, 2019</span>
+                    </div>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="mb-2">
+                <div class="card border-0 box-shadow-sm"><span class="cz-testimonial-mark"></span>
+                  <div class="card-body font-size-md text-muted">
+                    <div class="mb-2">
+                      <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i><i class="sr-star czi-star-filled active"></i>
+                      </div>
+                    </div>Am frecventat des de la deschidere si nu m-au dezamagit niciodata. Proprietarii importa ingrediente din Italia, iar
+                    porchetta este candidatul favorit.
+                  </div>
+                </div>
+                <footer class="d-flex justify-content-center pt-4">
+                  <div class="media align-items-center"><img class="rounded-circle" width="50" src="../static/img/reviews/02.jpg"
+                      alt="Laura Willson" />
+                    <div class="media-body pl-3">
+                      <h6 class="font-size-sm mb-n1">Madalina C.</h6><span class="font-size-ms text-muted opacity-75">Feb
+                        05, 2019</span>
+                    </div>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="mb-2">
+                <div class="card border-0 box-shadow-sm"><span class="cz-testimonial-mark"></span>
+                  <div class="card-body font-size-md text-muted">
+                    <div class="mb-2">
+                      <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i> <i class="sr-star czi-star"></i>
+                      </div>
+                    </div>Chiar daca la inceput au avut putin probleme cu personalul, lucrurile s-au imbunatatit si intotdeauna am 
+                    avut o experienta excelenta cu acest resturant.
+                  </div>
+                </div>
+                <footer class="d-flex justify-content-center pt-4">
+                  <div class="media align-items-center"><img class="rounded-circle" width="50" src="../static/img/reviews/02.jpg"
+                      alt="Mary Grant" />
+                    <div class="media-body pl-3">
+                      <h6 class="font-size-sm mb-n1">Andreea A. C.</h6><span
+                        class="font-size-ms text-muted opacity-75">Mar 23, 2020</span>
+                    </div>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="mb-2">
+                <div class="card border-0 box-shadow-sm"><span class="cz-testimonial-mark"></span>
+                  <div class="card-body font-size-md text-muted">
+                    <div class="mb-2">
+                      <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i><i class="sr-star czi-star"></i>
+                      </div>
+                    </div>Locuri de parcare in fata, raport calitate-pret foarte bun si serviciu rapid. Recomand sa incercati 
+                    panino con porchetta.
+                  </div>
+                </div>
+                <footer class="d-flex justify-content-center pt-4">
+                  <div class="media align-items-center"><img class="rounded-circle" width="50" src="../static/img/reviews/01.jpg"
+                      alt="Rafael Marquez" />
+                    <div class="media-body pl-3">
+                      <h6 class="font-size-sm mb-n1">Vasile L.</h6><span class="font-size-ms text-muted opacity-75">Iul
+                        3, 2020</span>
+                    </div>
+                  </div>
+                </footer>
+              </blockquote>
+              <blockquote class="mb-2">
+                <div class="card border-0 box-shadow-sm"><span class="cz-testimonial-mark"></span>
+                  <div class="card-body font-size-md text-muted">
+                    <div class="mb-2">
+                      <div class="star-rating"><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i><i class="sr-star czi-star-filled active"></i><i
+                          class="sr-star czi-star-filled active"></i><i class="sr-star czi-star-filled active"></i>
+                      </div>
+                    </div>Cel mai bun restaurant de porchetta din oras! Obisnuiesc sa iau aici micul dejun aproape in fiecare zi, recomand Salsiccia
+                    si cafeaua lor!
+                  </div>
+                </div>
+                <footer class="d-flex justify-content-center pt-4">
+                  <div class="media align-items-center"><img class="rounded-circle" width="50" src="../static/img/reviews/01.jpg"
+                      alt="Adrian Lewis" />
+                    <div class="media-body pl-3">
+                      <h6 class="font-size-sm mb-n1">Adrian Matei S.
+                      </h6><span class="font-size-ms text-muted opacity-75">Aug
+                        3, 2020</span>
+                    </div>
+                  </div>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bundles section -->
+      <div class="container pt-lg-1 pb-5 mb-md-3">
+        <div class="card card-body pt-5 pb-5">
+          <h2 class="h3 text-center">Mai ieftine impreuna</h2>
+          <p class="text-muted text-center pb-4">Fiti pe faza pentru mai multe oferte</p>
+          <div>
+            <div class="row align-items-center">
+              <!-- First product of the bundle -->
+              <div class="col-md-3 col-sm-5">
+                <div class="card product-card card-static text-center mx-auto" style='max-width: 20rem;'>
+                  <a href="#product1" data-toggle="modal" class="card-img-top d-block overflow-hidden">
+                    <img src="https://d22w8zt7h3m83m.cloudfront.net/{{bundle['many2many'][0]['jpeg_path']}}" alt="Product 1">
+                  </a>
+                  <div class="card-body py-2">
+                    <span class="d-inline-block bg-secondary font-size-ms rounded-sm py-1 px-2 mb-3">base price</span>
+                    <h3 class="product-title font-size-sm">{{bundle["many2many"][0]["title"]}}</h3>
+                    <div class="product-price text-accent">RON {{bundle["many2many"][0]["price"]}}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- + sign -->
+              <div class="col-md-1 col-sm-2 text-center">
+                <div class="display-4 font-weight-light text-muted px-4">+</div>
+              </div>
+
+              <!-- Second product of the bundle -->
+              <div class="col-md-3 col-sm-5">
+                <div class="card product-card card-static text-center mx-auto" style='max-width: 20rem;'>
+                  <a href="#product3" data-toggle="modal" class="card-img-top d-block overflow-hidden">
+                    <img src="https://d22w8zt7h3m83m.cloudfront.net/{{bundle['many2many'][1]['jpeg_path']}}" alt="Product 1">
+                  </a>
+                  <div class="card-body py-2">
+                    <span class="d-inline-block bg-danger font-size-ms text-white rounded-sm py-1 px-2 mb-3">-20%</span>
+                    <h3 class="product-title font-size-sm">{{bundle["many2many"][1]["title"]}}</h3>
+                    <div class="product-price text-accent">RON {{bundle["many2many"][1]["new_price"]}}
+                      <del class="font-size-sm text-muted">RON {{bundle["many2many"][1]["discount"]}}</del></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- = sign -->
+              <div class="d-none d-md-block col-md-1 text-center">
+                <div class="display-4 font-weight-light text-muted px-4">=</div>
+              </div>
+
+              <!-- Third result of the bundle -->
+              <div class="col-md-4 pt-3 pt-md-0">
+                <div class="bg-secondary p-4 rounded-lg text-center mx-auto" style="max-width: 20rem;">
+                  <div class="h3 font-weight-normal text-accent mb-3 mr-1">RON {{bundle["total_value"]}}</div>
+                  <a class="btn btn-primary" href="#contact-modal" data-toggle="modal">Cumpara Impreuna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Light gallery scripts -->
+      <script src="../static/vendor/lightgallery.js/dist/js/lightgallery.min.js"></script>
+      <script src="../static/vendor/lg-zoom.js/dist/lg-zoom.min.js"></script>
+      <script src="../static/vendor/lg-video.js/dist/lg-video.min.js"></script>
+    {% endblock bodycontent %}
+    
+    {% include 'footer/footer-home.html' %}
+  </main>
+  {% endblock main %}
+
+{% block scripts %}
+<script>
+  $('#product1').on('show.bs.modal', function (e) {
+      dimensionWidget = document.getElementById('product1-size')
+
+      dimensionWidget.addEventListener('change', (event) => { 
+        const dimensionText = document.getElementById('dimension-price-1')
+
+        // Callory base change style section
+        /**
+        const calloryBase = document.getElementById('product1-callory-base')
+        const calloryBig = document.getElementById('product1-callory-big')
+        */
+
+        if(event.target.value == 'medium'){
+          dimensionText.textContent = ``;
+
+          // Callory base change style section
+          /**
+          calloryBase.classList.remove('line-through');
+          calloryBig.innerHTML = ``
+          */
+
+        } else if(event.target.value == 'large'){
+          dimensionText.textContent = `+ 4.99`;
+          
+          // Callory base change style section
+          /**
+          calloryBase.classList.add('line-through')
+          calloryBig.textContent = `${calloryBase.textContent} + 184`
+          */
+
+        } else{ 
+
+        }
+      });
+  })
+
+  $('#product2').on('show.bs.modal', function (e) {
+      dimensionWidget = document.getElementById('product2-size')
+
+      dimensionWidget.addEventListener('change', (event) => { 
+        const dimensionText = document.getElementById('dimension-price-2')
+        // Callory base change style section
+        /**
+        const calloryBase = document.getElementById('product2-callory-base')
+        const calloryBig = document.getElementById('product2-callory-big')
+        */
+
+        if(event.target.value == 'medium'){
+          dimensionText.textContent = ``;
+          // Callory base change style section
+          /**
+          calloryBase.classList.remove('line-through');
+          calloryBig.innerHTML = ``
+          */
+
+        } else if(event.target.value == 'large'){
+          dimensionText.textContent = `+ 4.99`;
+
+          // Callory base change style section
+          /**
+          calloryBase.classList.add('line-through')
+          calloryBig.textContent = `${calloryBase.textContent} + 184`
+          */
+          
+        } else{ 
+
+        }
+      });
+  })
+</script>
+
+{% endblock scripts %}
+

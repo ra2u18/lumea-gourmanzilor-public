@@ -1,0 +1,199 @@
+<!-- Inheriting styles from the layout file. -->
+{% extends "layout.html" %}
+
+<!-- Header block -->
+{% block header %}
+<!-- Topbar + Navbar -->
+<!-- Multilevel light navbar -->
+<header class="box-shadow-sm">
+  <div class="navbar navbar-expand-lg navbar-dark bg-darker">
+    <div class="container">
+      <a href="{{url_for('home')}}" class="navbar-brand d-none d-sm-block mr-4 order-lg-1" style="min-width: 7rem;">
+        <img class="navbar-floating-logo" width="200" src="../static/img/logo-lumea.svg" alt="Lumea Gourmanzilor Logo White" />
+        <!-- ADD BLACK VERSION OF LOGO-->
+        <img width="200" src="../static/img/logo-black.svg" alt="Lumea Gourmanzilor Logo Black" class="navbar-stuck-logo">
+      </a>
+      <!-- Logo minim Lumea -->
+      <a href="{{url_for('home')}}" class="navbar-brand d-sm-none mr-2 order-lg-1" style="min-width: 4.625rem;">
+        <img width="45" src="../static/img/logo-lumea-min.svg" alt="Lumea Gourmanzilor Logo Mini" />
+      </a>
+      
+      <!-- Navbar collapse hamburger menu -->
+      <div class="navbar-toolbar d-flex align-items-center order-lg-3">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+  
+      <!-- Content of Navigation Bar row justify-content-end pr-10-->
+      <div class="collapse navbar-collapse order-lg-3" id="navbarCollapse">
+      
+        <!-- Primary menu -->
+        <ul class="navbar-nav ">
+          <li class="nav-item">
+            <a href="{{url_for('home')}}" class="nav-link">
+              Acasa
+            </a>
+          </li>
+  
+          <li class="nav-item">
+            <a href="{{url_for('about_us')}}" class="nav-link">
+              Despre Noi
+            </a>
+          </li>
+        </ul>
+      </div>  
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+<!-- Vendor Styles including: Font Icons, Plugins, etc.-->
+{% block customstyles %}
+    <link rel="stylesheet" media="screen" href="{{url_for('static', filename='vendor/simplebar/dist/simplebar.min.css')}}"/>
+    <link rel="stylesheet" media="screen" href="{{url_for('static', filename='vendor/tiny-slider/dist/tiny-slider.css')}}"/>
+    <link rel="stylesheet" media="screen" href="{{url_for('static', filename='vendor/drift-zoom/dist/drift-basic.min.css')}}"/>
+
+    <!-- Custom styles -->
+    <style>
+      .line-through{
+        text-decoration: line-through;
+      }
+
+      .disabled {
+        pointer-events: none;
+        cursor: default;
+      }
+    </style>
+{% endblock customstyles %}
+
+{% block main %}
+    <main class="main">
+        {% block bodycontent %}
+        <section class="container"> 
+          <div class="row justify-content-center pt-5 mt-md-2">
+            <div class="col-lg-9">
+              <!-- Post meta-->
+              <div class="d-flex flex-wrap justify-content-between align-items-center pb-4 mt-n1">
+                <div class="d-flex align-items-center font-size-sm mb-2">
+                  <a class="blog-entry-meta-link disabled" href="#">
+                    <div class="blog-entry-author-ava"><img src="../static/img/reviews/02.jpg" alt="Cynthia Gomez"></div>CEO</a>
+                    <span class="blog-entry-meta-divider"></span><a class="blog-entry-meta-link disabled" href="#">Jul 17</a></div>
+  
+              </div>
+              <!-- Gallery-->
+              <div class="cz-gallery row pb-2">
+                <div class="col-sm-8"><a class="gallery-item rounded-lg mb-grid-gutter" href="../static/img/about-us-blog/01.jpg" data-sub-html="&lt;h6 class=&quot;font-size-sm text-light&quot;&gt;Sediul Lumea Gourmanzilor&lt;/h6&gt;">
+                  <img src="../static/img/about-us-blog/01.jpg" alt="Gallery image"><span class="gallery-item-caption">Sediul Lumea Gourmanzilor</span></a></div>
+                <div class="col-sm-4">
+                  <a class="gallery-item rounded-lg mb-grid-gutter" href="../static/img/about-us-blog/02.jpg" data-sub-html="&lt;h6 class=&quot;font-size-sm text-light&quot;&gt;Cafea Nespresso&lt;/h6&gt;">
+                    <img src="../static/img/about-us-blog/th02.jpg" alt="Gallery image"><span class="gallery-item-caption">Cafea Nespresso</span></a>
+                  <a class="gallery-item rounded-lg mb-grid-gutter" href="../static/img/about-us-blog/03.jpg" data-sub-html="&lt;h6 class=&quot;font-size-sm text-light&quot;&gt;Sandwich cu Porchetta&lt;/h6&gt;">
+                    <img src="../static/img/about-us-blog/th03.jpg" alt="Gallery image"><span class="gallery-item-caption">Sandwich cu Porchetta</span></a>
+                </div>
+              </div>
+              <!-- Post content-->
+              <p>Arta culinara italieneasca este una dintre cele cunoscute tipuri de preparare din lume, simbolizand traditie, eleganta si finete. Vestea buna este ca in Suceva, Plopeni, restaurantul, recent deschis, Lumea Gourmanzilor, a reusit sa patrunda in inimile clientilor de la inceputul anului 2019. Aventura a pornit cu gandul responsabil de a aduce gustul rafinat italienesc printre romani. Majoritatea ingredientelor folosite sunt importate direct din Italia, de la producatori locali care respecta traditiile tarii.</p>
+              <p>In perioada in care am activat ca si manager al restaurantului <a href="#" class="disabled">Lumea Gourmanzilor</a>, m-am bucurat sa vad clienti multumiti de reteta preluata si imbunatatita de echipa noastra, cu radacini in traditia italieneasca. De-alungul timpului am avut schimbari majore in meniul nostru, iar acestea au fost decise in functie de 
+              preferintele si cererile clientilor. Echipa noastra de bucatari va extinde cartea culinara cu retete noi si delicioase, acestea vor aparea parte din ofertele noastre. Intotdeauna vom primi feedback-ul vostru
+              cu responsabilitate si seriozitate, de aceea, apelati si bucurati-ne cu pareri si idei.
+              
+              
+              </p>
+              <blockquote class="cz-testimonial my-4 pt-4 pb-2">
+                <div class="card border-0 box-shadow-sm"><span class="cz-testimonial-mark"></span>
+                  <div class="card-body font-size-md">
+                    Locuri de parcare in fata, raport calitate-pret foarte bun si serviciu rapid. Recomand sa incercati panino con porchetta!
+                  </div>
+                </div>
+                <footer class="d-flex justify-content-center pt-4">
+                  <div class="media align-items-center"><img class="rounded" width="50" src="../static/img/reviews/01.jpg" alt="Mary Grant"/>
+                    <div class="media-body pl-3">
+                      <h6 class="font-size-sm mb-n1">Vasile L.</h6><span class="font-size-ms text-muted">Client fidel</span>
+                    </div>
+                  </div>
+                </footer>
+              </blockquote>
+              <p>
+                Restaurantul nostru mobil poate aduce gustul produselor afisate si in orasul dvs. in cadrul festivalelor si evenimentelor speciale. Ramai aproape de noi
+              ca sa fii la curent cu locatia din agenda! De asemenea, in viitorul apropriat, vom deschide posibilitatea livrarilor la domiciliu si platilor cu cardul. Echipa de consultanta este pregatita sa 
+              lege un parteneriat cu compania de livari Glovo. 
+              </p>
+              <!-- Post tags + sharing-->
+              <div class="d-flex flex-wrap justify-content-between pt-2 pb-4 mb-1">
+                <div class="mt-3 mr-3"><a class="btn-tag mr-2 mb-2" href="#">#thoughts</a><a class="btn-tag mb-2" href="#">#future ideas</a></div>
+              </div>
+  
+            </div>
+          </div>
+        </section>
+
+        <!-- Kind of blog post section -->
+        <div class="bg-secondary py-4">
+          <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+            <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start">
+                  <li class="breadcrumb-item"><a class="text-nowrap" href="{{url_for('home')}}"><i class="czi-home"></i>Acasa</a></li>
+                  <li class="breadcrumb-item text-nowrap active" aria-current="page">Despre Noi</li>
+                </ol>
+              </nav>
+            </div>
+            <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
+              <h1 class="h3 mb-0">Contacteaza-ne</h1>
+            </div>
+          </div>
+        </div>
+
+            <!-- Contact detail cards-->
+        <section class="container-fluid pt-grid-gutter">
+          <div class="row">
+            <div class="col-xl-3 col-md-6 mb-grid-gutter"><a class="card">
+                <div class="card-body text-center"><i class="czi-location h3 mt-2 mb-4 text-primary"></i>
+                  <h3 class="h6 mb-2">Sediul Restaurantului</h3>
+                  <p class="font-size-sm text-muted">Calea Sucevei nr. 268, Suceava, Romania</p>
+                </div></a></div>
+            <div class="col-xl-3 col-md-6 mb-grid-gutter">
+              <div class="card">
+                <div class="card-body text-center"><i class="czi-time h3 mt-2 mb-4 text-primary"></i>
+                  <h3 class="h6 mb-3">Orarul de Lucru</h3>
+                  <ul class="list-unstyled font-size-sm text-muted mb-0">
+                    <li>Luni - Vineri: 9AM - 6PM</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-grid-gutter">
+              <div class="card">
+                <div class="card-body text-center"><i class="czi-phone h3 mt-2 mb-4 text-primary"></i>
+                  <h3 class="h6 mb-3">Numar de Telefon</h3>
+                  <ul class="list-unstyled font-size-sm mb-0">
+                    <li><span class="text-muted mr-1">Support:</span><a class="nav-link-style" href="tel:+108044357260">(+40) 0732 526 203</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-grid-gutter">
+              <div class="card">
+                <div class="card-body text-center"><i class="czi-mail h3 mt-2 mb-4 text-primary"></i>
+                  <h3 class="h6 mb-3">Trimite Mesaj</h3>
+                  <ul class="list-unstyled font-size-sm mb-0">
+                    <li><span class="text-muted mr-1">Adresa Email:</span><a class="nav-link-style" href="mailto:+108044357260">customer@lumeagourmanzilor.com</a></li>
+                    <li><span class="text-muted mr-1">Facebook:</span><a class="nav-link-style" href="https://www.facebook.com/lumeagourmanzilorrestaurant">www.facebook.com/lumeagourmanzilorrestaurant</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- Light gallery scripts -->
+        <script src="../static/vendor/lightgallery.js/dist/js/lightgallery.min.js"></script>
+        <script src="../static/vendor/lg-zoom.js/dist/lg-zoom.min.js"></script>
+        <script src="../static/vendor/lg-video.js/dist/lg-video.min.js"></script>
+        {% endblock bodycontent%}
+
+        {% include 'footer/footer-home.html' %}
+    </main>
+{% endblock %}

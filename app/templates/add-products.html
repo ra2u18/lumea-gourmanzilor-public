@@ -1,0 +1,147 @@
+<!-- Inheriting styles from the layout file. -->
+{% extends "layout.html" %}
+
+<!-- Header block -->
+{% block header %}
+<header class="bg-darker d-block navbar-sticky navbar-expand-lg navbar-dark">
+  {% include 'navbar/nav-home.html' %}
+</header>
+{% endblock %}
+
+{% block main %}
+    <main class="bg-secondary">
+        {% block bodycontent %}
+        <section class="container col-md-4 py-4 pt-md-5"  >
+
+            <form enctype="multipart/form-data" action="{{ url_for('post_products') }}" method="post">
+
+                <div class="form-group">
+                    <label for="productTitle">Numele produsului</label>
+                    <input class="form-control" type="text" name="title" id="productTitle" placeholder="First name" value="Pizza con Peperoni" required>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+                
+                <!-- List of available ingredients -->
+                <div class="d-flex flex-wrap mt-3 mb-3">
+                    <h5 class="text-muted h6">Ingredients: </h5>
+                    {% for ingredient in ingredients %}
+
+                        <div class="custom-control custom-checkbox ml-2">
+                            <input class="custom-control-input" type="checkbox" id={{ingredient.name}} name="check-ingr" value={{ingredient.name}}>
+                            <label class="custom-control-label" for={{ingredient.name}}>{{ingredient.name}}</label>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+                <!-- List of available allergies -->
+                <div class="d-flex flex-wrap mt-3 mb-3">
+                    <h5 class="text-muted h6">Allergies: </h5>
+                    {% for allergy in allergies %}
+
+                        <div class="custom-control custom-checkbox ml-2">
+                            <input class="custom-control-input" type="checkbox" id={{allergy.name}} name="check-alg" value={{allergy.name}}>
+                            <label class="custom-control-label" for={{allergy.name}}>{{allergy.name}}</label>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+                <!-- List of available ingredients -->
+                <div class="d-flex flex-wrap mt-3 mb-3">
+                    <h5 class="text-muted h6">Sizes: </h5>
+                    <!-- small -->
+                    <div class="custom-control custom-checkbox ml-2">
+                        <input class="custom-control-input" type="checkbox" id="small" name="small" value="Small">
+                        <label class="custom-control-label" for="small">Small</label>
+                    </div>
+
+                    <!-- small -->
+                    <div class="custom-control custom-checkbox ml-2">
+                        <input class="custom-control-input" type="checkbox" id="medium" name="medium" value="Medium">
+                        <label class="custom-control-label" for="medium">Medium</label>
+                    </div>
+
+                    <!-- small -->
+                    <div class="custom-control custom-checkbox ml-2">
+                        <input class="custom-control-input" type="checkbox" id="large" name="large" value="Large">
+                        <label class="custom-control-label" for="large">Large</label>
+                    </div>
+                </div>
+
+                <!-- Drag and drop file upload -->
+                <div class="cz-file-drop-area">
+                    <div class="cz-file-drop-icon czi-cloud-upload"></div>
+                    <span class="cz-file-drop-message">Drag and drop here to upload</span>
+                    <input type="file" name="file" class="cz-file-drop-input">
+                    <button type="button" class="cz-file-drop-btn btn btn-primary btn-sm">Or select file</button>
+                </div>
+
+                <!-- Price -->
+                <div class="form-group mt-3 mb-3">
+                    <label for="productTitle">Pretul Standard al Produsului</label>
+                    <input class="form-control" type="text" name="price" id="productPrice" placeholder="100" required>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <button class="btn btn-primary mt-3" type="submit">Submit</button>
+            </form>
+            
+        </section>
+        <section class="container col-md-4 py-4 pt-md-5">
+            
+                <form action="{{ url_for('post_ingredients') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="ingredientTitle">Numele ingredientului</label>
+                            <input class="form-control" name="ing-name" type="text" name="ingredient-title" id="ingredient_title" required>
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                    </div>
+                    <button id="ingredient_submit" class="btn btn-primary mt-3" type="submit">Submit</button>
+                </form>
+            
+        </section>
+
+        <section class="container col-md-4 py-4 pt-md-5">
+            
+            <form action="{{ url_for('post_allergies') }}" method="post">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="ingredientTitle">Numele alergenului</label>
+                        <input class="form-control" name="alg-name" type="text" name="ingredient-title" id="ingredient_title" required>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                </div>
+                <button id="allergies_submit" class="btn btn-primary mt-3" type="submit">Submit</button>
+            </form>
+        
+        </section>
+        {% endblock %}
+
+        {% include 'footer/footer-home.html' %}
+    </main>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+
+    ingredients = {{ json_ingredients | safe }}.map(x => x.toLowerCase())
+
+    const ingredient_title = document.getElementById('ingredient_title')
+    const ingred_submit = document.getElementById('ingredient_submit')
+
+    const test_fun = function(e) {
+        const query = e.target.value
+        if(ingredients.includes(query.toLowerCase())){
+            ingred_submit.classList.add('disabled')
+            ingred_submit.style.pointerEvents = "none"
+        } else {
+            ingred_submit.classList.remove('disabled')
+            ingred_submit.style.pointerEvents = "auto"
+        }
+    } 
+
+    ingredient_title.addEventListener('input', test_fun)
+</script>
+{% endblock %}
